@@ -1,0 +1,49 @@
+<head>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<% if (user) { %>
+  <nav>
+    <a href="/home">Home</a>
+    <a href="/about">About</a>
+    <a href="/contact">Contact</a>
+    <% if (user.role === 'admin') { %>
+      <a href="/notice/new">Post Notice</a>
+    <% } %>
+    <% if (user.role === 'teacher') { %>
+      <a href="/dashboard/teacher">Teacher Dashboard</a>
+    <% } %>
+    <% if (user.role === 'student') { %>
+      <a href="/dashboard/student">Student Dashboard</a>
+    <% } %>
+    <a href="/notices">Notices</a>
+   
+    <a href="/logout">Logout</a>
+    <a href="/profile">Profile</a>
+  
+    
+  </nav>
+  <hr>
+  <h2>Welcome, <%= user.username %>! (Role: <%= user.role %>)</h2>
+  <h1>Welcome to Academic Connect Portal</h1>
+<p>This is a platform for mentors and mentees to connect and collaborate.</p>
+<!-- <a href="/about">About</a> | <a href="/contact">Contact</a> | <a href="/login">Login</a>
+
+<a href="/logout">Logout</a><br>
+<a href="/profile">profile</a> -->
+<% } else { %>
+  <h2>Welcome, Guest!</h2>
+  <h1>Welcome to Academic Connect Portal</h1>
+<p>This is a platform for mentors and mentees to connect and collaborate.</p>
+<a href="/about">About</a> | <a href="/contact">Contact</a> | <a href="/login">Login</a>
+
+<a href="/logout">Logout</a><br>
+<a href="/profile">Profile</a>
+<% } %>
+<div>
+<form class="d-flex" action="/search" method="GET">
+  <div><input class="form-control me-2" type="search" name="q" placeholder="Search Students..." aria-label="Search">
+  <button class="btn btn-outline-success" type="submit">Search</button></div>
+</form>
+</div>
+
+

@@ -1,0 +1,29 @@
+<head>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<nav>
+    <a href="/home">Home</a>
+    <a href="/about">About</a>
+    <a href="/contact">Contact</a>
+    <% if (user.role === 'admin') { %>
+      <a href="/notice/new">Post Notice</a>
+    <% } %>
+    <% if (user.role === 'teacher') { %>
+      <a href="/dashboard/teacher">Teacher Dashboard</a>
+    <% } %>
+    <% if (user.role === 'student') { %>
+      <a href="/dashboard/student">Student Dashboard</a>
+    <% } %>
+    <a href="/notices">Notices</a>
+    <td>
+      <a href="/meetings/<%= user._id %>">Meetings</a>
+    </td>
+    <a href="/profile">Profile</a>
+    <a href="/logout">Logout</a>
+  </nav>
+  <hr>
+  
+<h2>Student Dashboard</h2>
+<p>Welcome, <%= user.username %></p>
+<a href="/profile">View Profile</a>
+<a href="/logout">Logout</a>

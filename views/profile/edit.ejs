@@ -1,0 +1,49 @@
+<head>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<nav>
+    <a href="/home">Home</a>
+    <a href="/about">About</a>
+    <a href="/contact">Contact</a>
+    <% if (user.role === 'admin') { %>
+      <a href="/notice/new">Post Notice</a>
+    <% } %>
+    <% if (user.role === 'teacher') { %>
+      <a href="/dashboard/teacher">Teacher Dashboard</a>
+    <% } %>
+    <% if (user.role === 'student') { %>
+      <a href="/dashboard/student">Student Dashboard</a>
+    <% } %>
+    <a href="/notices">Notices</a>
+    <a href="/logout">Logout</a>
+  </nav>
+  <hr>
+  
+<h2>Edit Your Profile</h2>
+
+<form method="POST" action="/profile/<%= user._id %>/edit">
+  <label>Full Name:</label>
+  <input type="text" name="fullName" value="<%= user.fullName %>" required><br>
+
+  <label>Email:</label>
+  <input type="email" name="email" value="<%= user.email %>" required><br>
+
+  <label>Bio:</label>
+  <textarea name="bio"><%= user.bio %></textarea><br>
+
+  <h3>Academic Info</h3>
+
+<label>Marks:</label>
+<input type="text" name="marks" value="<%= user.academic?.marks %>"><br>
+
+<label>Attendance:</label>
+<input type="text" name="attendance" value="<%= user.academic?.attendance %>"><br>
+
+<label>Extracurriculars:</label>
+<input type="text" name="extracurriculars" value="<%= user.academic?.extracurriculars %>"><br>
+
+
+  <button type="submit">Save Changes</button>
+</form>
+
+<a href="/profile/<%= user._id %>">Cancel</a>

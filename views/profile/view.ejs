@@ -1,0 +1,39 @@
+<head>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<nav>
+    <a href="/home">Home</a>
+    <a href="/about">About</a>
+    <a href="/contact">Contact</a>
+    <% if (user.role === 'admin') { %>
+      <a href="/notice/new">Post Notice</a>
+    <% } %>
+    <% if (user.role === 'teacher') { %>
+      <a href="/dashboard/teacher">Teacher Dashboard</a>
+    <% } %>
+    <% if (user.role === 'student') { %>
+      <a href="/dashboard/student">Student Dashboard</a>
+    <% } %>
+    <a href="/notices">Notices</a>
+    <a href="/logout">Logout</a>
+  </nav>
+  <hr>
+  
+<h2>Profile of <%= profileUser.username %></h2>
+
+<p><strong>Full Name:</strong> <%= profileUser.fullName || "N/A" %></p>
+<p><strong>Email:</strong> <%= profileUser.email || "N/A" %></p>
+<p><strong>Bio:</strong> <%= profileUser.bio || "N/A" %></p>
+
+<h3>Academic Information</h3>
+<p><strong>Marks:</strong> <%= profileUser.academic?.marks || "N/A" %></p>
+<p><strong>Attendance:</strong> <%= profileUser.academic?.attendance || "N/A" %></p>
+<p><strong>Extracurriculars:</strong> <%= profileUser.academic?.extracurriculars || "N/A" %></p>
+
+
+<% if (user._id.toString() === profileUser._id.toString() && user.role === 'student') { %>
+    <a href="/profile/<%= profileUser._id %>/edit">Edit Profile</a>
+  <% } %>
+  
+
+<a href="/dashboard/<%= user.role %>">Back to Dashboard</a>

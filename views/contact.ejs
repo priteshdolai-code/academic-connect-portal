@@ -1,0 +1,51 @@
+<head>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<% if (user) { %>
+  <nav>
+    <a href="/home">Home</a>
+    <a href="/about">About</a>
+    <a href="/contact">Contact</a>
+    <% if (user.role === 'admin') { %>
+      <a href="/notice/new">Post Notice</a>
+    <% } %>
+    <% if (user.role === 'teacher') { %>
+      <a href="/dashboard/teacher">Teacher Dashboard</a>
+    <% } %>
+    <% if (user.role === 'student') { %>
+      <a href="/dashboard/student">Student Dashboard</a>
+    <% } %>
+    <a href="/notices">Notices</a>
+    <a href="/logout">Logout</a>
+    <a href="/profile">profile</a>
+  </nav>
+  <hr>
+  
+<% } else { %>
+<a href="/about">About</a> | <a href="/contact">Contact</a> | <a href="/login">Login</a>
+
+<a href="/logout">Logout</a><br>
+<a href="/profile">profile</a>
+<% } %>
+  
+<h2>Contact Us</h2>
+<p>Email: connect@college.edu</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

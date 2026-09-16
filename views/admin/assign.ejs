@@ -1,42 +1,78 @@
 <head>
-    <link rel="stylesheet" href="/css/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
 </head>
-<nav>
-    <a href="/home">Home</a>
-    <a href="/about">About</a>
-    <a href="/contact">Contact</a>
-    <% if (user.role === 'admin') { %>
-      <a href="/notice/new">Post Notice</a>
-    <% } %>
-    <% if (user.role === 'teacher') { %>
-      <a href="/dashboard/teacher">Teacher Dashboard</a>
-    <% } %>
-    <% if (user.role === 'student') { %>
-      <a href="/dashboard/student">Student Dashboard</a>
-    <% } %>
-    <a href="/notices">Notices</a>
-    <a href="/logout">Logout</a>
-  </nav>
-  <hr>
+
+<body>
+  <!-- HEADER NAVBAR -->
+  <header>
+    <nav class="navbar">
+      <div class="nav-left">
+        <a href="/home">
+          <i class="fa-solid fa-graduation-cap"></i> <strong>Academic Connect</strong>
+        </a>
+      </div>
+
+      <div class="nav-links">
+        <a href="/home">Home</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+        <a href="/notices">Notices</a>
+
+        <% if (user?.role === 'admin') { %>
+          <a href="/notice/new">Post Notice</a>
+        <% } %>
+
+        <% if (user?.role === 'teacher') { %>
+          <a href="/dashboard/teacher">Teacher Dashboard</a>
+        <% } else if (user?.role === 'student') { %>
+          <a href="/dashboard/student">Student Dashboard</a>
+        <% } else if (user?.role === 'admin') { %>
+          <a href="/dashboard/admin">Admin Dashboard</a>
+        <% } %>
+
+        <a href="/profile">Profile</a>
+        <a href="/logout">Logout</a>
+      </div>
+
+      <% if (user && (user.role === 'admin' || user.role === 'teacher')) { %>
+        <form class="nav-search" action="/search" method="GET">
+          <input type="text" name="q" placeholder="Search students..." />
+          <button type="submit"><i class="fa fa-search"></i></button>
+        </form>
+      <% } %>
+    </nav>
+  </header>  <hr>
   
-<h2>Assign Students to Teachers</h2>
-
-<form method="POST" action="/admin/assign">
-  <label for="studentId">Select Student:</label>
-  <select name="studentId" required>
-    <% students.forEach(student => { %>
-      <option value="<%= student._id %>"><%= student.username %></option>
-    <% }) %>
-  </select>
-
-  <label for="teacherId">Select Teacher:</label>
-  <select name="teacherId" required>
-    <% teachers.forEach(teacher => { %>
-      <option value="<%= teacher._id %>"><%= teacher.username %></option>
-    <% }) %>
-  </select>
-
-  <button type="submit">Assign</button>
-</form>
-
-<a href="/dashboard/admin">Back to Dashboard</a>
+  <div class="form-card">
+    <h2>📚 Assign Students to Teachers</h2>
+  
+    <form method="POST" action="/admin/assign" class="assign-form">
+      <div class="form-group">
+        <label for="studentId">👨‍🎓 Select Student:</label>
+        <select name="studentId" id="studentId" required>
+          <% students.forEach(student => { %>
+            <option value="<%= student._id %>"><%= student.username %></option>
+          <% }) %>
+        </select>
+      </div>
+  
+      <div class="form-group">
+        <label for="teacherId">👩‍🏫 Select Teacher:</label>
+        <select name="teacherId" id="teacherId" required>
+          <% teachers.forEach(teacher => { %>
+            <option value="<%= teacher._id %>"><%= teacher.username %></option>
+          <% }) %>
+        </select>
+      </div>
+  
+      <button type="submit" class="assign-btn">✅ Assign</button>
+    </form>
+  </div>
+  
+ <!-- FOOTER -->
+ <footer class="footer">
+  <p>&copy; <%= new Date().getFullYear() %> Academic Connect Portal. All rights reserved.</p>
+</footer>
+</body>

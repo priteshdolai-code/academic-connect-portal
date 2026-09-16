@@ -1,24 +1,110 @@
 <head>
-    <link rel="stylesheet" href="/css/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
 </head>
-<nav>
-    <a href="/home">Home</a>
-    <a href="/about">About</a>
-    <a href="/contact">Contact</a>
-    <% if (user.role === 'admin') { %>
-      <a href="/notice/new">Post Notice</a>
-    <% } %>
-    <% if (user.role === 'teacher') { %>
-      <a href="/dashboard/teacher">Teacher Dashboard</a>
-    <% } %>
-    <% if (user.role === 'student') { %>
-      <a href="/dashboard/student">Student Dashboard</a>
-    <% } %>
-    <a href="/notices">Notices</a>
-    <a href="/logout">Logout</a>
-  </nav>
+
+<body>
+  <!-- HEADER NAVBAR -->
+  <header>
+    <nav class="navbar">
+      <div class="nav-left">
+        <a href="/home">
+          <i class="fa-solid fa-graduation-cap"></i> <strong>Academic Connect</strong>
+        </a>
+      </div>
+
+      <div class="nav-links">
+        <a href="/home">Home</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+        <a href="/notices">Notices</a>
+
+        <% if (user?.role === 'admin') { %>
+          <a href="/notice/new">Post Notice</a>
+        <% } %>
+
+        <% if (user?.role === 'teacher') { %>
+          <a href="/dashboard/teacher">Teacher Dashboard</a>
+        <% } else if (user?.role === 'student') { %>
+          <a href="/dashboard/student">Student Dashboard</a>
+          <a href="/meetings/<%= user._id %>" >
+            Meetings
+          </a>
+        <% } else if (user?.role === 'admin') { %>
+          <a href="/dashboard/admin">Admin Dashboard</a>
+        <% } %>
+
+        <a href="/profile">Profile</a>
+        <a href="/logout">Logout</a>
+      </div>
+
+      <% if (user && (user.role === 'admin' || user.role === 'teacher')) { %>
+        <form class="nav-search" action="/search" method="GET">
+          <input type="text" name="q" placeholder="Search students..." />
+          <button type="submit"><i class="fa fa-search"></i></button>
+        </form>
+      <% } %>
+      <% if (user?.role === 'teacher') { %>
+        <a href="/issues" class="floating-button" title="Raise an Issue">
+          📝 Issue
+        </a>
+      <% } else if (user?.role === 'student') { %>
+        <a href="/issue/new" class="floating-button" title="Raise an Issue">
+          📝 Raise Issue
+        </a>
+      <% } %>
+      
+    </nav>
+  </header>
   <hr>
+
+  <div class="profile-container">
+    <h2>👤 Profile of <%= profileUser.username %></h2>
   
+    <div class="profile-details">
+      <p><strong>Full Name:</strong> <%= profileUser.fullName || "N/A" %></p>
+      <p><strong>Email:</strong> <%= profileUser.email || "N/A" %></p>
+      <p><strong>Bio:</strong> <%= profileUser.bio || "N/A" %></p>
+    </div>
+  
+    <h3>📘 Academic Information</h3>
+    <div class="academic-details">
+      <p><strong>Marks:</strong> <%= profileUser.academic?.marks || "N/A" %></p>
+      <p><strong>Attendance:</strong> <%= profileUser.academic?.attendance || "N/A" %></p>
+      <p><strong>Extracurriculars:</strong> <%= profileUser.academic?.extracurriculars || "N/A" %></p>
+    </div>
+    <% if (profileUser.role === 'student' && profileUser.teacher) { %>
+      <div class="teacher-info">
+        <p><strong>Assigned Teacher:</strong>
+          <a href="/profile/<%= profileUser.teacher._id %>">
+            <%= profileUser.teacher.username %>
+          </a>
+        </p>
+      </div>
+    <% } %>
+    
+    <% if (profileUser.role === 'teacher' && profileUser.students && profileUser.students.length > 0) { %>
+      <div class="student-list">
+        <h3>👥 Assigned Students:</h3>
+        <ul>
+          <% profileUser.students.forEach(s => { %>
+            <li>
+              <a href="/profile/<%= s._id %>"><%= s.username %></a>
+            </li>
+          <% }) %>
+        </ul>
+      </div>
+    <% } %>
+  
+    <% if (user._id.toString() === profileUser._id.toString() && user.role === 'student') { %>
+      <form action="/profile/<%= user._id %>/edit" method="get" class="edit-form">
+        <button type="submit" class="edit-button">📝 Edit Academics</button>
+      </form>
+    <% } %>
+  </div>
+  
+<!--   
 <h2>Profile of <%= profileUser.username %></h2>
 
 <p><strong>Full Name:</strong> <%= profileUser.fullName || "N/A" %></p>
@@ -32,8 +118,14 @@
 
 
 <% if (user._id.toString() === profileUser._id.toString() && user.role === 'student') { %>
+  <form action="/profile/<%= user._id %>/edit" method="get">
+    <button type="submit">📝 Edit Academics</button>
+  </form>
+<% } %> -->
+
+<!-- <% if (user._id.toString() === profileUser._id.toString() && user.role === 'student') { %>
     <a href="/profile/<%= profileUser._id %>/edit">Edit Profile</a>
-  <% } %>
+  <% } %> -->
   
 
-<a href="/dashboard/<%= user.role %>">Back to Dashboard</a>
+<!-- <a href="/dashboard/<%= user.role %>">Back to Dashboard</a> -->

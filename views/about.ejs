@@ -1,4 +1,4 @@
-<head>
+<!-- <head>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <% if (user) { %>
@@ -26,8 +26,63 @@
 
 <a href="/logout">Logout</a><br>
 <a href="/profile">profile</a>
-<% } %>
+<% } %> -->
+
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <!-- HEADER NAVBAR -->
+  <header>
+    <nav class="navbar">
+      <div class="nav-left">
+        <a href="/home">
+          <i class="fa-solid fa-graduation-cap"></i> <strong>Academic Connect</strong>
+        </a>
+      </div>
+
+      <div class="nav-links">
+        <a href="/home">Home</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+        <a href="/notices">Notices</a>
+
+        <% if (user?.role === 'admin') { %>
+          <a href="/notice/new">Post Notice</a>
+        <% } %>
+
+        <% if (user?.role === 'teacher') { %>
+          <a href="/dashboard/teacher">Teacher Dashboard</a>
+        <% } else if (user?.role === 'student') { %>
+          <a href="/dashboard/student">Student Dashboard</a>
+        <% } else if (user?.role === 'admin') { %>
+          <a href="/dashboard/admin">Admin Dashboard</a>
+        <% } %>
+
+        <a href="/profile">Profile</a>
+        <a href="/logout">Logout</a>
+      </div>
+
+      <% if (user && (user.role === 'admin' || user.role === 'teacher')) { %>
+        <form class="nav-search" action="/search" method="GET">
+          <input type="text" name="q" placeholder="Search students..." />
+          <button type="submit"><i class="fa fa-search"></i></button>
+        </form>
+      <% } %>
+    </nav>
+  </header>
 
   
 <h2>About Us</h2>
 <p>This platform is created to support students, teachers, and admins.</p>
+Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quo cum nostrum sed sunt possimus beatae itaque sit illum consequuntur harum veritatis vitae cupiditate quas placeat voluptas ratione minima, tempore perspiciatis rem, numquam odio eligendi amet id aliquam. Molestias autem laboriosam ad quis eum dolores nemo alias iure reiciendis voluptatem voluptatum facere officia eos vitae consequuntur, qui quas. Assumenda cumque ab ipsam voluptatibus quibusdam hic molestias, deleniti sed similique ipsa velit eaque consequatur. Officiis maxime recusandae expedita adipisci aliquam, a repellat voluptas tempore earum nesciunt vel dolor, accusamus deserunt aut! Explicabo sit repudiandae numquam et reprehenderit nostrum, ratione aliquam fugit autem.
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p>&copy; <%= new Date().getFullYear() %> Academic Connect Portal. All rights reserved.</p>
+</footer>
+</body>

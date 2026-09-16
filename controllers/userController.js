@@ -58,3 +58,20 @@ exports.updateProfile = async (req, res) => {
     res.redirect('/profile/' + req.params.id);
   };
   
+// For showing assigned teacher/student on profile page
+
+exports.viewProfile = async (req, res) => {
+  const profileUser = await User.findById(req.params.id)
+    .populate('teacher', 'username _id') // for students
+    .lean();
+
+  // If user is a teacher, fetch assigned students
+  if (profileUser.role === 'teacher') {
+    profileUser.students = await User.find({ teacher: profileUser._id }, 'username _id').lean();
+  }
+
+  res.render('profile/view', {
+    user: req.session.user,
+    profileUser
+  });
+};

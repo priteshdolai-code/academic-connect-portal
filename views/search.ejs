@@ -1,33 +1,58 @@
 <head>
   <link rel="stylesheet" href="/css/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
-<nav>
-  <a href="/home">Home</a>
-  <a href="/about">About</a>
-  <a href="/contact">Contact</a>
-  <% if (user.role === 'admin') { %>
-    <a href="/notice/new">Post Notice</a>
-  <% } %>
-  <% if (user.role === 'teacher') { %>
-    <a href="/dashboard/teacher">Teacher Dashboard</a>
-  <% } %>
-  <% if (user.role === 'student') { %>
-    <a href="/dashboard/student">Student Dashboard</a>
-  <% } %>
-  <a href="/notices">Notices</a>
-  <a href="/logout">Logout</a>
-</nav>
-<hr>
+<header>
+  <nav class="navbar">
+    <div class="nav-left">
+      <a href="/home">
+        <i class="fa-solid fa-graduation-cap"></i> <strong>Academic Connect</strong>
+      </a>
+    </div>
 
-<h2>Search Students</h2>
+    <div class="nav-links">
+      <a href="/home">Home</a>
+      <a href="/about">About</a>
+      <a href="/contact">Contact</a>
+      <a href="/notices">Notices</a>
+
+      <% if (user?.role === 'admin') { %>
+        <a href="/notice/new">Post Notice</a>
+      <% } %>
+
+      <% if (user?.role === 'teacher') { %>
+        <a href="/dashboard/teacher">Teacher Dashboard</a>
+      <% } else if (user?.role === 'student') { %>
+        <a href="/dashboard/student">Student Dashboard</a>
+      <% } else if (user?.role === 'admin') { %>
+        <a href="/dashboard/admin">Admin Dashboard</a>
+      <% } %>
+
+      <a href="/profile">Profile</a>
+      <a href="/logout">Logout</a>
+    </div>
+
+    <% if (user && (user.role === 'admin' || user.role === 'teacher')) { %>
+      <form class="nav-search" action="/search" method="GET">
+        <input type="text" name="q" placeholder="Search students..." />
+        <button type="submit"><i class="fa fa-search"></i></button>
+      </form>
+    <% } %>
+  </nav>
+</header>
+
+<hr>
+ Your Search Result of <%= query %>
+<!-- <h2>Search Students</h2>
 <form method="GET" action="/search">
   <input type="text" name="q" value="<%= query %>" placeholder="Search by username or email" />
   <button type="submit">Search</button>
-</form>
+</form> -->
 
 <ul>
   <% results.forEach(r => { %>
     <li><%= r.username %> - <%= r.email %></li>
   <% }) %>
 </ul>
-<a href="/dashboard/<%= user.role %>">Back to Dashboard</a>
+<button style="background-color:aqua;"><a href="/dashboard/<%= user.role %>">Back to Dashboard</a></button>

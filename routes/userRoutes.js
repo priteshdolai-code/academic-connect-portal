@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
 const { isLoggedIn } = require('../middlewares/auth');
-
+const profileController = require('../controllers/profileController');
 
 // View profile (accessible by all roles)
 router.get('/profile/:id', isLoggedIn, userController.viewProfile);

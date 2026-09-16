@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
   fullName: { type: String },
   email: { type: String },
   bio: { type: String },
+  
   teacher: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
@@ -17,7 +18,8 @@ const userSchema = new mongoose.Schema({
     attendance: { type: String, default: '' },
     extracurriculars: { type: String, default: '' }
   }
-});
+},
+{ timestamps: true });
 
 
 module.exports = mongoose.model('User', userSchema);

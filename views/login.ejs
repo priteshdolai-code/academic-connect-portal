@@ -1,4 +1,4 @@
-<head>
+<!-- <head>
   <link rel="stylesheet" href="/css/style.css">
 </head>
 
@@ -8,4 +8,37 @@
   <input name="password" type="password" placeholder="Password" required />
   <button type="submit">Login</button>
 </form>
-<a href="/register">Don't have an account?</a>
+<a href="/register">Don't have an account?</a> -->
+
+<head>
+  <link rel="stylesheet" href="/css/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<div class="login-container">
+  <div class="login-card">
+    <h2>Login</h2>
+    <form method="POST" class="login-form">
+      <input name="username" type="text" placeholder="Username" required />
+
+      <div class="password-wrapper">
+        <input name="password" type="password" id="passwordInput" placeholder="Password" required />
+        <span class="toggle-password" onclick="togglePassword()">👁</span>
+      </div>
+
+      <button type="submit">Login</button>
+    </form>
+    <p class="register-link">
+      Don't have an account? <a href="/register">Register</a>
+    </p>
+  </div>
+</div>
+
+<script>
+  function togglePassword() {
+    const passwordInput = document.getElementById("passwordInput");
+    const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+    passwordInput.setAttribute("type", type);
+  }
+</script>
+
